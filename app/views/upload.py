@@ -1,6 +1,8 @@
 from time import time
-from secrets import token_bytes
 from hashlib import md5
+from hashlib import sha1
+from hashlib import sha256
+from secrets import token_bytes
 
 from flask import Blueprint
 from flask import current_app
@@ -62,6 +64,8 @@ def upload():
         "name": secure_filename(target.filename),
         "size": size,
         "md5": md5(blob).hexdigest(),
+        "sha1": sha1(blob).hexdigest(),
+        "sha256": sha256(blob).hexdigest(),
         "time": time(),
     }
 
