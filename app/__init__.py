@@ -13,13 +13,15 @@ storage = {}
 
 
 def loop():
-    key_list = list(storage.keys())
-    for key in key_list:
-        alive = 2700 - int(time() - storage[key]['time'])
-        if alive < 0:
-            del storage[key]
+    while True:
+        key_list = list(storage.keys())
+        for i in range(0, len(key_list)):
+            key = key_list[i]
+            alive = 2700 - int(time() - storage[key]['time'])
+            if alive < 0:
+                del storage[key]
 
-    sleep(30), loop()
+        sleep(30)
 
 
 def create_app():
