@@ -24,7 +24,7 @@ def file(file_id: str):
         return redirect(url_for("upload.form"))
 
     return send_file(
-        path_or_file=BytesIO(blob),
+        BytesIO(blob),
         mimetype="application/octet-stream",
         as_attachment=True,
         attachment_filename=name

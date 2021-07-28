@@ -14,9 +14,7 @@ storage = {}
 
 def loop():
     while True:
-        key_list = list(storage.keys())
-        for i in range(0, len(key_list)):
-            key = key_list[i]
+        for key in list(storage.keys()):
             alive = 2700 - int(time() - storage[key]['time'])
             if alive < 0:
                 del storage[key]
