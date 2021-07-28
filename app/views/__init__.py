@@ -1,5 +1,6 @@
 __all__ = [
-    "upload",
     "download",
     "file",
+    "robots",
+    "upload",
 ]
