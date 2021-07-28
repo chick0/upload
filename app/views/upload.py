@@ -57,7 +57,7 @@ def upload():
     if size >= current_app.config['MAX_CONTENT_LENGTH']:
         return render_template(
             "upload/file_is_too_big.html"
-        )
+        ), 413
 
     storage[file_id] = {
         "blob": blob,
