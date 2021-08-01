@@ -26,20 +26,20 @@
     uvicorn --host 127.0.0.1 --port 16482 --loop uvloop --factory app:create_app
     ```
 
-## 설정하기
-
-### 업로드 용량 제한하기
-
-1. file_size_limit.txt 파일을 열고
-
-2. n 이라 적혀있는 것을 원하는 용량으로 변경한다.
-    - ex) 8mb 이면 8
-    - ex) 16mb 이면 16
+## 서버 설정하기
 
 ### 업로드되는 파일의 개수 제한하기
 
-1. max_upload.txt 파일을 열고
+1. `upload.ini` 파일을 열고
 
-2. n 이라 적혀있는 것을 원하는 값으로 변경한다.
+2. `max_upload` 옵션을 원하는 값으로 변경한다.
     - ex) 100개면 100
     - ex) 3개면 3
+
+### 업로드 용량 제한하기
+
+1. `upload.ini` 파일을 열고
+
+2. `max_size` 옵션을 원하는 용량으로 변경한다.
+    - ex) 8mb 이면 8
+    - ex) 16mb 이면 16

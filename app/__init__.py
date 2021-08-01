@@ -5,8 +5,7 @@ from threading import Thread
 from flask import Flask
 from asgiref.wsgi import WsgiToAsgi
 
-from .setting import get_size_limit
-from .setting import get_max_upload
+from .config import get
 from .template_filter import display_size
 
 
@@ -26,8 +25,8 @@ def loop():
 
 def create_app():
     app = Flask(__name__)
-    app.config['MAX_CONTENT_LENGTH'] = get_size_limit()
-    app.config['MAX_UPLOAD'] = get_max_upload()
+    app.config['MAX_UPLOAD'], \
+        app.config['MAX_CONTENT_LENGTH'] = get()
 
     # blueprint init
     from . import views
