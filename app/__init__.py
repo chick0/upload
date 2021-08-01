@@ -17,11 +17,12 @@ storage = {}
 def loop():
     while True:
         for key in list(storage.keys()):
-            alive = 2700 - int(time() - storage[key]['time'])
+            alive = 2700 - round(time() - storage[key]['time'])
             if alive < 0:
                 del storage[key]
 
-        sleep(30)
+        # 5m
+        sleep(5 * 60)
 
 
 def create_app():
@@ -38,9 +39,7 @@ def create_app():
     app.add_template_filter(display_size)
 
     # background task
-    task = Thread(target=loop)
-    task.daemon = True
-    task.start()
+    Thread(target=loop, daemon=True).start()
 
     # error page!
     def error_413(err):
