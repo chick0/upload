@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <section class="section">
+        <h1 class="title">파일 업로드 실패</h1>
+        <div class="content is-large">
+            <p>업로드 할 파일을 발견하지 못했습니다.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <a class="button is-danger is-large" href="{{ url_for('upload.form') }}">업로드 페이지로 이동</a>
+    </section>
+{% endblock %}

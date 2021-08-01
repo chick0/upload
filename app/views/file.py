@@ -1,7 +1,6 @@
 
 from flask import Blueprint
-from flask import redirect
-from flask import url_for
+from flask import abort
 from flask import Response
 from flask import render_template
 
@@ -21,7 +20,7 @@ def show(file_id: str):
         name = storage[file_id]['name']
         size = storage[file_id]['size']
     except KeyError:
-        return redirect(url_for("upload.form"))
+        return abort(404)
 
     return render_template(
         "file/show.html",
@@ -39,7 +38,7 @@ def checksums(file_id: str):
         sha1 = storage[file_id]['sha1']
         sha256 = storage[file_id]['sha256']
     except KeyError:
-        return redirect(url_for("upload.form"))
+        return abort(404)
 
     return Response(
         response="\n".join([

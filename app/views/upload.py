@@ -13,6 +13,7 @@ from flask import render_template
 from werkzeug.utils import secure_filename
 
 from app import storage
+from app.custom_error import *
 
 
 bp = Blueprint(
@@ -38,26 +39,22 @@ def upload():
         else:
             return check_file_id()
 
+    if len(storage) >= current_app.config['MAX_UPLOAD']:
+        raise TooManyFiles
+
     target = request.files.get("file", None)
     if target is None:
-        return redirect(url_for("upload.form"))
-
-    if len(storage) >= current_app.config['MAX_UPLOAD']:
-        return render_template(
-            "upload/too_many_files.html"
-        ), 503
+        raise FileIsEmpty
 
     file_id = check_file_id()
     blob = target.stream.read()
     size = len(blob)
 
     if size == 0:
-        return redirect(url_for("upload.form"))
+        raise FileIsEmpty
 
     if size >= current_app.config['MAX_CONTENT_LENGTH']:
-        return render_template(
-            "upload/file_is_too_big.html"
-        ), 413
+        raise FileIsTooBig
 
     storage[file_id] = {
         "blob": blob,

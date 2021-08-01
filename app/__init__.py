@@ -3,7 +3,6 @@ from time import sleep
 from threading import Thread
 
 from flask import Flask
-from flask import render_template
 from asgiref.wsgi import WsgiToAsgi
 
 from .setting import get_size_limit
@@ -41,11 +40,9 @@ def create_app():
     # background task
     Thread(target=loop, daemon=True).start()
 
-    # error page!
-    def error_413(err):
-        return render_template(
-            "upload/file_is_too_big.html"
-        ), 413
+    # register error handler
+    from .error import error_map
+    for code in error_map:
+        app.register_error_handler(code, error_map[code])
 
-    app.register_error_handler(413, error_413)
     return WsgiToAsgi(app)
