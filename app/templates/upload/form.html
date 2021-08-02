@@ -27,7 +27,7 @@
     <script>
         const fileInput = document.getElementById("fileInput");
         fileInput.onchange = function(){
-            if (fileInput.files.length > 0) {
+            if (fileInput.files.length == 1) {
                 document.getElementById("fileLabel").innerText = "파일 선택 완료!";
             } else {
                 document.getElementById("fileLabel").innerText = "선택된 파일 없음";
