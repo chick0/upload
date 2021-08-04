@@ -1,5 +1,6 @@
 
 from flask import Blueprint
+from flask import g
 from flask import abort
 from flask import Response
 from flask import render_template
@@ -22,6 +23,7 @@ def show(file_id: str):
     except KeyError:
         return abort(404)
 
+    g.title = name
     return render_template(
         "file/show.html",
         file_id=file_id,

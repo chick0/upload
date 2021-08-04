@@ -2,6 +2,7 @@ from time import time
 from time import sleep
 from threading import Thread
 
+from flask import g
 from flask import Flask
 from asgiref.wsgi import WsgiToAsgi
 
@@ -43,5 +44,9 @@ def create_app():
     from .error import error_map
     for code in error_map:
         app.register_error_handler(code, error_map[code])
+
+    @app.before_request
+    def set_title():
+        g.title = "Upload!"
 
     return WsgiToAsgi(app)
