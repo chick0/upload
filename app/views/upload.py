@@ -26,7 +26,10 @@ bp = Blueprint(
 @bp.get("")
 def form():
     return render_template(
-        "upload/form.html"
+        "upload/form.html",
+        count=list(storage.keys()).__len__(),
+        max=current_app.config['MAX_UPLOAD'],
+        max_size=current_app.config['MAX_CONTENT_LENGTH']
     )
 
 
@@ -39,7 +42,7 @@ def upload():
         else:
             return check_file_id()
 
-    if len(storage) >= current_app.config['MAX_UPLOAD']:
+    if list(storage.keys()).__len__() >= current_app.config['MAX_UPLOAD']:
         raise TooManyFiles
 
     target = request.files.get("file", None)
