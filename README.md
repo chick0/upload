@@ -23,7 +23,7 @@
 2. 서버 실행하기
 
     ```bash
-    uvicorn --host 127.0.0.1 --port 16482 --loop uvloop --factory app:create_app
+    python upload.py --port 16482
     ```
 
 ## 서버 설정하기

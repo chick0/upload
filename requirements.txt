@@ -4,25 +4,24 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
-asgiref==3.4.1
-    # via uvicorn
 click==8.0.1
-    # via
-    #   flask
-    #   uvicorn
+    # via flask
 flask==2.0.1
     # via -r requirements.in
-h11==0.12.0
-    # via uvicorn
 itsdangerous==2.0.1
     # via flask
 jinja2==3.0.1
     # via flask
 markupsafe==2.0.1
     # via jinja2
-uvicorn==0.14.0
+paste==3.5.0
     # via -r requirements.in
-uvloop==0.15.3
+six==1.16.0
+    # via paste
+waitress==2.0.0
     # via -r requirements.in
 werkzeug==2.0.1
     # via flask
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools

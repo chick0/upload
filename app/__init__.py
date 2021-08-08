@@ -4,7 +4,6 @@ from threading import Thread
 
 from flask import g
 from flask import Flask
-from asgiref.wsgi import WsgiToAsgi
 
 from .config import get
 from .template_filter import display_size
@@ -49,4 +48,4 @@ def create_app():
     def set_title():
         g.title = "Upload!"
 
-    return WsgiToAsgi(app)
+    return app

@@ -1,5 +1,3 @@
 flask
-
-# for ASGI not for WSGI
-uvicorn
-uvloop
+paste
+waitress
