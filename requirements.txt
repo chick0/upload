@@ -22,6 +22,3 @@ waitress==2.0.0
     # via -r requirements.in
 werkzeug==2.0.1
     # via flask
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
