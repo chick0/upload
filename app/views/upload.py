@@ -35,12 +35,12 @@ def form():
 
 @bp.post("")
 def upload():
-    def check_file_id():
-        new_id = token_bytes(4).hex()
+    def check_file_id(length: int = 2):
+        new_id = token_bytes(length).hex()
         if new_id not in storage.keys():
             return new_id
         else:
-            return check_file_id()
+            return check_file_id(length=length + 1)
 
     if list(storage.keys()).__len__() >= current_app.config['MAX_UPLOAD']:
         raise TooManyFiles
