@@ -1,10 +1,14 @@
 from io import BytesIO
+from json import loads
+from os.path import join
 
 from flask import Blueprint
 from flask import abort
 from flask import send_file
 
-from app import storage
+from app import redis
+from app import UPLOAD_DIR
+from app.models import File
 
 
 bp = Blueprint(
@@ -15,16 +19,21 @@ bp = Blueprint(
 
 
 @bp.get("/<string:file_id>")
-def file(file_id: str):
-    try:
-        blob = storage[file_id]['blob']
-        name = storage[file_id]['name']
-    except KeyError:
+@bp.get("/<string:file_id>/<string:fake>")
+def file(file_id: str, fake=None):
+    from_redis = redis.get(f"chick0/upload:{file_id}")
+    if from_redis is None:
         return abort(404)
+
+    from_redis = loads(from_redis)
+    file_ = File(*from_redis)
+
+    with open(join(UPLOAD_DIR, file_id), mode="rb") as tmp_reader:
+        blob = tmp_reader.read()
 
     return send_file(
         BytesIO(blob),
         mimetype="application/octet-stream",
         as_attachment=True,
-        attachment_filename=name
+        attachment_filename=file_.name
     )

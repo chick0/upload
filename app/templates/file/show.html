@@ -10,7 +10,7 @@
             </ul>
         </div>
 
-        <a class="button is-success is-large" href="{{ url_for('download.file', file_id=file_id) }}">파일 다운로드</a>
+        <a class="button is-success is-large" href="{{ url_for('download.file', file_id=file_id, fake=name) }}">파일 다운로드</a>
         <a class="button is-link is-large" href="{{ url_for('file.checksums', file_id=file_id) }}" target="_blank">체크섬</a>
     </section>
 {% endblock %}

@@ -1,4 +1,5 @@
-from time import time
+from json import dumps
+from os.path import join
 from hashlib import md5
 from hashlib import sha1
 from hashlib import sha256
@@ -12,8 +13,10 @@ from flask import url_for
 from flask import render_template
 from werkzeug.utils import secure_filename
 
-from app import storage
+from app import redis
+from app import UPLOAD_DIR
 from app.custom_error import *
+from app.models import File
 
 
 bp = Blueprint(
@@ -27,8 +30,6 @@ bp = Blueprint(
 def form():
     return render_template(
         "upload/form.html",
-        count=list(storage.keys()).__len__(),
-        max=current_app.config['MAX_UPLOAD'],
         max_size=current_app.config['MAX_CONTENT_LENGTH']
     )
 
@@ -37,13 +38,10 @@ def form():
 def upload():
     def check_file_id(length: int = 2):
         new_id = token_bytes(length).hex()
-        if new_id not in storage.keys():
-            return new_id
-        else:
+        if redis.exists(f"chick0/upload:{new_id}"):
             return check_file_id(length=length + 1)
 
-    if list(storage.keys()).__len__() >= current_app.config['MAX_UPLOAD']:
-        raise TooManyFiles
+        return new_id
 
     target = request.files.get("file", None)
     if target is None:
@@ -59,14 +57,21 @@ def upload():
     if size >= current_app.config['MAX_CONTENT_LENGTH']:
         raise FileIsTooBig
 
-    storage[file_id] = {
-        "blob": blob,
-        "name": secure_filename(target.filename),
-        "size": size,
-        "md5": md5(blob).hexdigest(),
-        "sha1": sha1(blob).hexdigest(),
-        "sha256": sha256(blob).hexdigest(),
-        "time": time(),
-    }
+    with open(join(UPLOAD_DIR, file_id), mode="wb") as tmp_writer:
+        tmp_writer.write(blob)
+
+    file = File(
+        name=secure_filename(target.filename),
+        size=size,
+        md5=md5(blob).hexdigest(),
+        sha1=sha1(blob).hexdigest(),
+        sha256=sha256(blob).hexdigest(),
+    )
+
+    redis.set(
+        name=f"chick0/upload:{file_id}",
+        value=dumps(file),
+        ex=2700
+    )
 
     return redirect(url_for("file.show", file_id=file_id))

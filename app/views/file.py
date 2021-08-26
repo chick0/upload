@@ -1,3 +1,4 @@
+from json import loads
 
 from flask import Blueprint
 from flask import g
@@ -5,7 +6,8 @@ from flask import abort
 from flask import Response
 from flask import render_template
 
-from app import storage
+from app import redis
+from app.models import File
 
 
 bp = Blueprint(
@@ -17,37 +19,37 @@ bp = Blueprint(
 
 @bp.get("/<string:file_id>")
 def show(file_id: str):
-    try:
-        name = storage[file_id]['name']
-        size = storage[file_id]['size']
-    except KeyError:
+    from_redis = redis.get(f"chick0/upload:{file_id}")
+    if from_redis is None:
         return abort(404)
 
-    g.title = name
+    from_redis = loads(from_redis)
+    file = File(*from_redis)
+
+    g.title = file.name
     return render_template(
         "file/show.html",
         file_id=file_id,
-        name=name,
-        size=size,
+        name=file.name,
+        size=file.size,
     )
 
 
 @bp.get("/<string:file_id>/checksums.txt")
 def checksums(file_id: str):
-    try:
-        name = storage[file_id]['name']
-        md5 = storage[file_id]['md5']
-        sha1 = storage[file_id]['sha1']
-        sha256 = storage[file_id]['sha256']
-    except KeyError:
+    from_redis = redis.get(f"chick0/upload:{file_id}")
+    if from_redis is None:
         return abort(404)
+
+    from_redis = loads(from_redis)
+    file = File(*from_redis)
 
     return Response(
         response="\n".join([
-            name,
-            f"md5sum {md5}",
-            f"sha1sum {sha1}",
-            f"sha256sum {sha256}",
+            file.name,
+            f"md5sum {file.md5}",
+            f"sha1sum {file.sha1}",
+            f"sha256sum {file.sha256}",
         ]),
         mimetype="text/plain"
     )
