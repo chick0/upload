@@ -28,8 +28,11 @@ def file(file_id: str, fake=None):
     from_redis = loads(from_redis)
     file_ = File(*from_redis)
 
-    with open(join(UPLOAD_DIR, file_id), mode="rb") as tmp_reader:
-        blob = tmp_reader.read()
+    try:
+        with open(join(UPLOAD_DIR, file_id), mode="rb") as tmp_reader:
+            blob = tmp_reader.read()
+    except FileNotFoundError:
+        return abort(404)
 
     return send_file(
         BytesIO(blob),

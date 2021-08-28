@@ -1,16 +1,29 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <section class="section">
-        <h1 class="title">파일 업로드</h1>
-        <div class="content is-large">
-            <ul>
-                <li>파일 아이디: <b>{{ file_id }}</b></li>
-                <li>파일명: <b>{{ name }}</b></li>
-                <li>파일크기: <b>{{ size|display_size }}</b></li>
-            </ul>
+    <section class="hero is-info is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <p class="title" id="title">{{ name }}</p>
+                <div class="content is-large">
+                    <div class="columns">
+                        <div class="column is-2"><b>파일 아이디</b></div>
+                        <div class="column">{{ file_id }}</div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-2"><b>용량</b></div>
+                        <div class="column">{{ size|display_size }}</div>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <a class="button is-info is-light is-medium" href="{{ url_for('download.file', file_id=file_id, fake=name) }}">파일 다운로드</a>
+                    <a class="button is-danger is-light is-medium" href="{{ url_for('file.checksums', file_id=file_id) }}" target="_blank">체크섬</a>
+                </div>
+            </div>
         </div>
-
-        <a class="button is-success is-large" href="{{ url_for('download.file', file_id=file_id, fake=name) }}">파일 다운로드</a>
-        <a class="button is-link is-large" href="{{ url_for('file.checksums', file_id=file_id) }}" target="_blank">체크섬</a>
     </section>
+{% endblock %}
+{% block script %}
+    <script>
+        document.getElementById("title").addEventListener("click", function(){if(confirm("업로드 화면으로 이동할까요?")){window.location.href="/";}});
+    </script>
 {% endblock %}

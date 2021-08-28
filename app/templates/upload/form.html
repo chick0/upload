@@ -1,26 +1,27 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <section class="section">
-        <h1 class="title">파일 업로드</h1>
-        <h2 class="subtitle">업로드한 파일은 45분뒤에 삭제됩니다.</h2>
-    </section>
-
-    <section class="section">
-        <form method="post" enctype="multipart/form-data">
-            <div class="field is-grouped">
-                <div class="control">
-                    <div class="file is-large">
-                        <label class="file-label">
-                            <input class="file-input" type="file" name="file" id="fileInput" required="required">
-                            <span class="file-cta" id="fileLabel">선택된 파일 없음</span>
-                        </label>
+    <section class="hero is-info is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <p class="title">파일 업로드</p>
+                <p class="subtitle">업로드한 파일은 <b>45분</b>뒤에 삭제됩니다.</p>
+                <form method="post" enctype="multipart/form-data">
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <div class="file is-medium">
+                                <label class="file-label">
+                                    <input class="file-input" type="file" name="file" id="fileInput" required="required">
+                                    <span class="file-cta" id="fileLabel">선택된 파일 없음</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="control">
+                            <button type="submit" class="button is-info is-light is-medium">업로드</button>
+                        </div>
                     </div>
-                </div>
-                <div class="control">
-                    <button type="submit" class="button is-link is-large">업로드</button>
-                </div>
+                </form>
             </div>
-        </form>
+        </div>
     </section>
 {% endblock %}
 {% block script %}

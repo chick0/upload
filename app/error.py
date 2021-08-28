@@ -1,31 +1,47 @@
 
+from flask import current_app
 from flask import render_template
 
 from app.custom_error import *
+from app.template_filter import display_size
+from app.models import Error
 
 
 def file_is_empty(e):
+    error = Error(
+        title="파일 업로드 실패",
+        subtitle="업로드 할 파일을 발견하지 못했습니다."
+    )
+
     return render_template(
-        "error/file_is_empty.html"
+        "error.html",
+        error=error
     ), 400
 
 
 def page_not_found(e):
+    error = Error(
+        title="404",
+        subtitle="해당 파일을 찾을 수 없습니다."
+    )
+
     return render_template(
-        "error/page_not_found.html"
+        "error.html",
+        error=error
     ), 404
 
 
 def file_is_too_big(e):
+    max_size = display_size(current_app.config['MAX_CONTENT_LENGTH'])
+    error = Error(
+        title="파일 업로드 실패",
+        subtitle=f"업로드 가능한 가장 큰 파일의 크기는 <b>{max_size}</b>입니다."
+    )
+
     return render_template(
-        "error/file_is_too_big.html"
+        "error.html",
+        error=error
     ), 413
-
-
-def too_many_files(e):
-    return render_template(
-        "error/too_many_files.html"
-    ), 503
 
 
 # error map
@@ -35,6 +51,5 @@ error_map = {
 
     # custom error
     FileIsEmpty: file_is_empty,
-    FileIsTooBig: file_is_too_big,
-    TooManyFiles: too_many_files,
+    FileIsTooBig: file_is_too_big
 }
