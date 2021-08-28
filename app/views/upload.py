@@ -11,6 +11,7 @@ from flask import request
 from flask import redirect
 from flask import url_for
 from flask import render_template
+from flask import Response
 from werkzeug.utils import secure_filename
 
 from app import redis
@@ -73,5 +74,11 @@ def upload():
         value=dumps(file),
         ex=2700
     )
+
+    if "curl" in request.user_agent.string:
+        return Response(
+            response=f"{request.scheme}://{request.host}" + url_for("download.file", file_id=file_id),
+            mimetype="text/plain"
+        )
 
     return redirect(url_for("file.show", file_id=file_id))

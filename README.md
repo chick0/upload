@@ -41,3 +41,11 @@
 2. `redis_url` 옵션을 원하는 용량으로 변경한다.
     - ex) 8mb 이면 8
     - ex) 16mb 이면 16
+
+## 콘솔에서 업로드 하기
+
+```bash
+curl -F 'file=@./fileName' https://upload.ch1ck.xyz/
+```
+
+`User-Agent` 값에 `curl`이 포함되어있다면, 파일 다운로드 링크만 전달 받을 수 있습니다.
