@@ -1,11 +1,8 @@
 from os import path
 from os import mkdir
-from os import remove
-from os import listdir
 
 from flask import g
 from flask import Flask
-from flask import request
 from flask_redis import FlaskRedis
 
 from .config import get
@@ -47,16 +44,5 @@ def create_app():
     @app.before_request
     def set_title():
         g.title = "Upload!"
-
-    @app.teardown_request
-    def chick0_upload_queue(exception):
-        if request.path.startswith("/file"):
-            if not redis.exists("chick0/upload/queue"):
-                for file_id in listdir(UPLOAD_DIR):
-                    if not redis.exists(f"chick0/upload:{file_id}"):
-                        remove(path.join(UPLOAD_DIR, file_id))
-
-                # 5min
-                redis.set("chick0/upload/queue", "", ex=300)
 
     return app
