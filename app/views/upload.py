@@ -54,7 +54,7 @@ def form():
 
 @bp.post("")
 def upload():
-    def check_file_id(length: int = 2):
+    def check_file_id(length: int = 2) -> str:
         new_id = token_bytes(length).hex()
         if redis.exists(f"chick0/upload:{new_id}"):
             return check_file_id(length=length + 1)
