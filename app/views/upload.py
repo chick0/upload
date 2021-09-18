@@ -4,6 +4,8 @@ from hashlib import md5
 from hashlib import sha1
 from hashlib import sha256
 from secrets import token_bytes
+from datetime import datetime
+from datetime import timedelta
 
 from flask import Blueprint
 from flask import current_app
@@ -16,6 +18,7 @@ from werkzeug.utils import secure_filename
 
 from app import redis
 from app import UPLOAD_DIR
+from app.secret_key import SECRET_KEY
 from app.custom_error import *
 from app.models import File
 
@@ -101,4 +104,13 @@ def upload():
             mimetype="text/plain"
         )
 
-    return redirect(url_for("file.show", file_id=file_id))
+    r = redirect(url_for("file.show", file_id=file_id))
+    r.set_cookie(
+        key=file_id,
+        value=md5(file.md5.encode() + SECRET_KEY + file_id.encode()).hexdigest(),
+        expires=datetime.now() + timedelta(minutes=45),
+        path=f"/file/{file_id}",
+        httponly=True,
+    )
+
+    return r

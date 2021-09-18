@@ -16,7 +16,10 @@
                 </div>
                 <div class="buttons">
                     <a class="button is-info is-light is-medium" href="{{ url_for('download.file', file_id=file_id, fake=name) }}">파일 다운로드</a>
-                    <a class="button is-danger is-light is-medium" href="{{ url_for('file.checksums', file_id=file_id) }}" target="_blank">체크섬</a>
+                    <a class="button is-link is-light is-medium" href="{{ url_for('file.checksums', file_id=file_id) }}" target="_blank">체크섬</a>
+                {% if request.cookies[file_id] %}
+                    <a class="button is-danger is-light is-medium" href="{{ url_for('file.delete', file_id=file_id) }}">파일 삭제</a>
+                {% endif %}
                 </div>
             </div>
         </div>
