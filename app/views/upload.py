@@ -32,7 +32,7 @@ bp = Blueprint(
 
 def set_filename(file_id: str, filename: str) -> str:
     try:
-        filename, ext = filename.rsplit(".")
+        filename, ext = filename.rsplit(".", 1)
     except ValueError:
         filename = secure_filename(filename)
         return filename if len(filename) != 0 else file_id
