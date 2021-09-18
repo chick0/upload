@@ -6,7 +6,7 @@ MegaByte = 1000 * 1000
 
 def get() -> (int, str):
     upload = ConfigParser()
-    upload.read("upload.ini")
+    upload.read("upload.ini", encoding="utf-8")
 
     max_size = 30
     redis_url = "redis://:@localhost:6379/0"
