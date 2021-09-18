@@ -27,6 +27,23 @@ bp = Blueprint(
 )
 
 
+def set_filename(file_id: str, filename: str) -> str:
+    try:
+        filename, ext = filename.rsplit(".")
+    except ValueError:
+        filename = secure_filename(filename)
+        return filename if len(filename) != 0 else file_id
+
+    filename = secure_filename(filename)
+
+    if len(filename) == 0:
+        filename = f"{file_id}.{ext}"
+    else:
+        filename += f".{ext}"
+
+    return filename
+
+
 @bp.get("")
 def form():
     return render_template(
@@ -62,7 +79,10 @@ def upload():
         tmp_writer.write(blob)
 
     file = File(
-        name=secure_filename(target.filename),
+        name=set_filename(
+            file_id=file_id,
+            filename=target.filename
+        ),
         size=size,
         md5=md5(blob).hexdigest(),
         sha1=sha1(blob).hexdigest(),
