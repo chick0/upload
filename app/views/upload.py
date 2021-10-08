@@ -90,6 +90,7 @@ def upload():
         md5=md5(blob).hexdigest(),
         sha1=sha1(blob).hexdigest(),
         sha256=sha256(blob).hexdigest(),
+        code=token_bytes(4).hex(),
     )
 
     redis.set(
@@ -107,7 +108,7 @@ def upload():
     r = redirect(url_for("file.show", file_id=file_id))
     r.set_cookie(
         key=file_id,
-        value=md5(file.md5.encode() + SECRET_KEY + file_id.encode()).hexdigest(),
+        value=md5(file.md5.encode() + SECRET_KEY + bytes.fromhex(file.code)).hexdigest(),
         expires=datetime.now() + timedelta(minutes=45),
         path=f"/file/{file_id}",
         httponly=True,

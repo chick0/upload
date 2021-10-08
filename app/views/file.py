@@ -72,7 +72,7 @@ def delete(file_id: str):
     from_redis = loads(from_redis)
     file = File(*from_redis)
 
-    key = md5(file.md5.encode() + SECRET_KEY + file_id.encode()).hexdigest()
+    key = md5(file.md5.encode() + SECRET_KEY + bytes.fromhex(file.code)).hexdigest()
 
     if key != key_from_user:
         return abort(403)
