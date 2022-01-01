@@ -72,7 +72,11 @@ def delete(file_id: str):
     from_redis = loads(from_redis)
     file = File(*from_redis)
 
-    key = md5(file.md5.encode() + SECRET_KEY + bytes.fromhex(file.code)).hexdigest()
+    # 삭제 토큰
+    key = md5(
+        file.md5.encode() +  # 업로드된 파일과 동일한 파일인지 검증하기 위해
+        SECRET_KEY           # 서버에서 생성한 삭제 토큰인지 검증하기 위해
+    ).hexdigest()
 
     if key != key_from_user:
         return abort(403)

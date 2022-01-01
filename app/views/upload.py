@@ -105,11 +105,17 @@ def upload():
             mimetype="text/plain"
         )
 
+    # 삭제 토큰
+    key = md5(
+        file.md5.encode() +  # 업로드된 파일과 동일한 파일인지 검증하기 위해
+        SECRET_KEY           # 서버에서 생성한 삭제 토큰인지 검증하기 위해
+    ).hexdigest()
+
     r = redirect(url_for("file.show", file_id=file_id))
     r.set_cookie(
         key=file_id,
-        value=md5(file.md5.encode() + SECRET_KEY + bytes.fromhex(file.code)).hexdigest(),
-        expires=datetime.now() + timedelta(minutes=45),
+        value=key,
+        expires=datetime.now() + timedelta(minutes=45, seconds=30),
         path=f"/file/{file_id}",
         httponly=True,
     )
