@@ -22,7 +22,6 @@ from app.secret_key import SECRET_KEY
 from app.custom_error import *
 from app.models import File
 
-
 bp = Blueprint(
     name="upload",
     import_name="upload",

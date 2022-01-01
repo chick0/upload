@@ -13,7 +13,6 @@ from app.models import File
 from app.models import Error
 from app.secret_key import SECRET_KEY
 
-
 bp = Blueprint(
     name="file",
     import_name="file",

@@ -10,7 +10,6 @@ from app import redis
 from app import UPLOAD_DIR
 from app.models import File
 
-
 bp = Blueprint(
     name="download",
     import_name="download",

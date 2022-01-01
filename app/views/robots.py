@@ -1,7 +1,5 @@
-
 from flask import Blueprint
 from flask import Response
-
 
 bp = Blueprint(
     name="robots",
