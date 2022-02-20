@@ -38,7 +38,9 @@ def worker():
                     logger.exception(f"fail to remove '{file_id}'")
 
         logger.info(f"task finished ({round(time() - start_time, 2)}s)")
-        sleep(90)  # 1min 30s
+        sleep(
+            60 * 10
+        )  # wait 10 minutes
 
 
 if __name__ == "__main__":
