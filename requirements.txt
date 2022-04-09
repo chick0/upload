@@ -4,8 +4,6 @@
 #
 #    pip-compile
 #
---extra-index-url https://www.piwheels.org/simple
-
 click==8.0.1
     # via flask
 flask==2.0.1
