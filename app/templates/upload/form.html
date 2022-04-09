@@ -1,42 +1,45 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <section class="hero is-info is-fullheight">
-        <div class="hero-body">
-            <div class="container">
-                <p class="title">파일 업로드</p>
-                <p class="subtitle">업로드한 파일은 <b>45분</b>뒤에 삭제됩니다.</p>
-                <form method="post" enctype="multipart/form-data">
-                    <div class="field is-grouped">
-                        <div class="control">
-                            <div class="file is-medium">
-                                <label class="file-label">
-                                    <input class="file-input" type="file" name="file" id="fileInput" required="required">
-                                    <span class="file-cta" id="fileLabel">선택된 파일 없음</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="control">
-                            <button type="submit" class="button is-info is-light is-medium">업로드</button>
-                        </div>
+<section class="section">
+    <div class="container">
+        <h1 class="title is-1">파일 업로드</h1>
+        <h2 class="subtitle">업로드한 파일은 <b>45분</b>뒤에 삭제됩니다.</h2>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <form method="post" enctype="multipart/form-data">
+            <div class="field is-grouped">
+                <div class="control">
+                    <div class="file is-medium">
+                        <label class="file-label">
+                            <input class="file-input" type="file" name="file" id="fileInput" required="required">
+                            <span class="file-cta" id="fileLabel">선택된 파일 없음</span>
+                        </label>
                     </div>
-                </form>
+                </div>
+                <div class="control">
+                    <button type="submit" class="button is-info is-light is-medium">업로드</button>
+                </div>
             </div>
-        </div>
-    </section>
+        </form>
+    </div>
+</section>
 {% endblock %}
 {% block script %}
-    <script>
-        const fileInput = document.getElementById("fileInput");
-        fileInput.onchange = function(){
-            if (fileInput.files.length == 1) {
-                if(fileInput.files[0].size >= {{ max_size }}) {
-                    window.alert("업로드 하려는 파일의 크기가 너무 큽니다."); fileInput.value="";
-                } else {
-                    document.getElementById("fileLabel").innerText = "파일 선택 완료!";
-                }
+<script>
+    const fileInput = document.getElementById("fileInput");
+    fileInput.onchange = function(){
+        if (fileInput.files.length == 1) {
+            if(fileInput.files[0].size >= {{ max_size }}) {
+                window.alert("업로드 하려는 파일의 크기가 너무 큽니다."); fileInput.value="";
             } else {
-                document.getElementById("fileLabel").innerText = "선택된 파일 없음";
+                document.getElementById("fileLabel").innerText = "파일 선택 완료!";
             }
+        } else {
+            document.getElementById("fileLabel").innerText = "선택된 파일 없음";
         }
-    </script>
+    }
+</script>
 {% endblock %}

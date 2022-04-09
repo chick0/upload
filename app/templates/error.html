@@ -1,12 +1,15 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <section class="hero is-info is-fullheight">
-        <div class="hero-body">
-            <div class="container">
-                <p class="title">{{ error.title }}</p>
-                <p class="subtitle">{{ error.subtitle|safe }}</p>
-                <a class="button is-danger is-light is-medium" href="{{ url_for('upload.form') }}">업로드 페이지로 이동</a>
-            </div>
-        </div>
-    </section>
+<section class="section">
+    <div class="container">
+        <h1 class="title is-1">{{ error.title }}</h1>
+        <h2 class="subtitle">{{ error.subtitle|safe }}</h2>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <a class="button is-danger is-light is-medium" href="{{ url_for('upload.form') }}">업로드 페이지로 이동</a>
+    </div>
+</section>
 {% endblock %}
