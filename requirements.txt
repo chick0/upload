@@ -4,30 +4,46 @@
 #
 #    pip-compile
 #
-click==8.0.1
+async-timeout==4.0.2
+    # via redis
+cffi==1.15.0
+    # via gevent
+click==8.1.2
     # via flask
-flask==2.0.1
+colorama==0.4.4
+    # via click
+deprecated==1.2.13
+    # via redis
+flask==2.1.1
     # via
     #   -r requirements.in
     #   flask-redis
 flask-redis==0.4.0
     # via -r requirements.in
-gevent==21.8.0
+gevent==21.12.0
     # via -r requirements.in
-greenlet==1.1.1
+greenlet==1.1.2
     # via gevent
 gunicorn==20.1.0
     # via -r requirements.in
-itsdangerous==2.0.1
+itsdangerous==2.1.2
     # via flask
-jinja2==3.0.1
+jinja2==3.1.1
     # via flask
-markupsafe==2.0.1
+markupsafe==2.1.1
     # via jinja2
-redis==3.5.3
+packaging==21.3
+    # via redis
+pycparser==2.21
+    # via cffi
+pyparsing==3.0.8
+    # via packaging
+redis==4.2.2
     # via flask-redis
-werkzeug==2.0.1
+werkzeug==2.1.1
     # via flask
+wrapt==1.14.0
+    # via deprecated
 zope-event==4.5.0
     # via gevent
 zope-interface==5.4.0
