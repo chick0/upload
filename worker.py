@@ -21,7 +21,7 @@ def worker():
 
     logger.info("staring worker...")
     config = ConfigParser()
-    config.read("upload.ini")
+    config.read("upload.ini", encoding="utf8")
 
     logger.info("connecting to redis server...")
     redis = StrictRedis.from_url(url=config['upload']['redis_url'])
