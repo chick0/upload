@@ -51,9 +51,5 @@ def delete(file_id: str):
     del session[file_id]
 
     return render_template(
-        "error.html",
-        error=Error(
-            title="파일 삭제",
-            subtitle="파일이 삭제되었습니다."
-        )
+        "file/deleted.html"
     )

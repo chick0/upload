@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="title is-1">파일 삭제</h1>
+        <h2 class="subtitle">해당 파일이 서버에서 삭제되었습니다.</h2>
+    </div>
+</section>
+{% endblock %}
+
+{%block script %}
+<script>
+    setTimeout(() => { location.href = '/' }, 1500);
+</script>
+{% endblock %}
