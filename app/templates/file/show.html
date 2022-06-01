@@ -33,7 +33,7 @@
 </section>
 {% endblock %}
 {% block script %}
-<script src="{{ url_for('static', filename='clipboard.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/clipboard.min.js') }}"></script>
 <script>
     const clipboard = new ClipboardJS(".copy");
     clipboard.on("success",function(e){e.clearSelection(),window.alert("복사되었습니다.");});
