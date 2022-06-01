@@ -16,7 +16,27 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/bulma.min.css') }}">
     </head>
     <body>
+        <nav class="navbar container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">업로드</a>
+                <a role="button" class="navbar-burger" data-target="navbar">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </a>
+            </div>
+            <div id="navbar" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="/files">
+                        내 파일
+                    </a>
+                </div>
+            </div>
+        </nav>
+
         {% block content %}{% endblock %}
+
+        <script src="/static/js/burger.js"></script>
         {% block script %}{% endblock %}
     </body>
 </html>
