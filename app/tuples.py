@@ -7,6 +7,7 @@ File = namedtuple(
         "size",
         "sha256",
         "code",
+        "creation_date"
     ]
 )
 

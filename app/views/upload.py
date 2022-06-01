@@ -2,6 +2,7 @@ from json import dumps
 from os.path import join
 from hashlib import sha256
 from secrets import token_bytes
+from datetime import datetime
 
 from flask import Blueprint
 from flask import current_app
@@ -80,6 +81,7 @@ def upload():
         size=size,
         sha256=sha256(blob).hexdigest(),
         code=token_bytes(3).hex(),
+        creation_date=datetime.now().timestamp()
     )
 
     redis.set(
