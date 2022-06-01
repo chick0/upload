@@ -2,16 +2,14 @@
 {% block content %}
 <section class="section">
     <div class="container">
-        <h1 class="title is-1">{{ name }}</h1>
-        <div class="content is-large">
-            <div class="columns copy" data-clipboard-text="{{ request.base_url }}">
-                <div class="column is-2"><b>파일 아이디</b></div>
-                <div class="column">{{ file_id }}</div>
-            </div>
-            <div class="columns">
-                <div class="column is-2"><b>용량</b></div>
-                <div class="column">{{ size|display_size }}</div>
-            </div>
+        <h1 class="title is-1">{{ file.name }}</h1>
+
+        <div class="block buttons">
+            <a class="button is-info is-light is-medium" href="{{ url_for('download.file', file_id=file_id, fake=file.name) }}">파일 다운로드</a>
+            <button class="button is-link is-light is-medium copy" data-clipboard-text="{{ download_url }}">링크 복사</button>
+        {% if session[file_id] %}
+            <a class="button is-danger is-light is-medium" href="{{ url_for('file.delete', file_id=file_id) }}">파일 삭제</a>
+        {% endif %}
         </div>
     </div>
 </section>
@@ -19,16 +17,13 @@
 <section class="section">
     <div class="container">
         <div class="columns">
-            <div class="column">
-                <a class="button is-info is-light is-medium is-fullwidth" href="{{ url_for('download.file', file_id=file_id, fake=name) }}">파일 다운로드</a>
-            </div>
-            <div class="column">
-                <a class="button is-link is-light is-medium is-fullwidth" href="{{ url_for('file.checksums', file_id=file_id) }}" target="_blank">체크섬</a>
-            </div>
+            <div class="column is-2"><b>SHA256</b></div>
+            <div class="column">{{ file.sha256 }}</div>
         </div>
-    {% if session[file_id] %}
-        <a class="button is-danger is-light is-medium is-fullwidth" href="{{ url_for('file.delete', file_id=file_id) }}">파일 삭제</a>
-    {% endif %}
+        <div class="columns">
+            <div class="column is-2"><b>FILE SIZE</b></div>
+            <div class="column">{{ file.size|display_size }} ({{ file.size }})</div>
+        </div>
     </div>
 </section>
 {% endblock %}
