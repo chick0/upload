@@ -1,6 +1,7 @@
 from os import path
 from os import mkdir
 from os import environ
+from secrets import token_bytes
 
 from flask import g
 from flask import Flask
@@ -9,8 +10,6 @@ from flask_redis import FlaskRedis
 from dotenv import load_dotenv
 
 from app.template_filter import display_size
-from app.secret_key import SECRET_KEY
-
 
 redis = FlaskRedis()
 BASE_DIR = path.dirname(path.abspath(__file__))
@@ -22,6 +21,18 @@ def upload_path_test():
         mkdir(UPLOAD_DIR)
 
 
+def get_secret_key() -> bytes:
+    try:
+        with open(".SECRET_KEY", mode="rb") as key_reader:
+            key = key_reader.read()
+    except FileNotFoundError:
+        with open(".SECRET_KEY", mode="wb") as key_writer:
+            key = token_bytes(32)
+            key_writer.write(key)
+
+    return key
+
+
 def create_app():
     load_dotenv()
     upload_path_test()
@@ -29,7 +40,7 @@ def create_app():
     app = Flask(__name__)
     app.config['MAX_CONTENT_LENGTH'] = int(environ['MAX_SIZE']) * 1000 * 1000
     app.config['REDIS_URL'] = environ['REDIS_URL']
-    app.config['SECRET_KEY'] = SECRET_KEY
+    app.config['SECRET_KEY'] = get_secret_key()
 
     # redis init
     redis.init_app(app=app)
