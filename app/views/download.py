@@ -8,7 +8,7 @@ from flask import send_file
 
 from app import redis
 from app import UPLOAD_DIR
-from app.models import File
+from app.tuples import File
 
 bp = Blueprint(
     name="download",

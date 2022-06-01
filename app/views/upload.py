@@ -20,7 +20,7 @@ from app import redis
 from app import UPLOAD_DIR
 from app.secret_key import SECRET_KEY
 from app.custom_error import *
-from app.models import File
+from app.tuples import File
 
 bp = Blueprint(
     name="upload",

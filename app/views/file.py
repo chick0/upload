@@ -9,8 +9,8 @@ from flask import Response
 from flask import render_template
 
 from app import redis
-from app.models import File
-from app.models import Error
+from app.tuples import File
+from app.tuples import Error
 from app.secret_key import SECRET_KEY
 
 bp = Blueprint(

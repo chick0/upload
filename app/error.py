@@ -1,10 +1,9 @@
-
 from flask import current_app
 from flask import render_template
 
 from app.custom_error import *
 from app.template_filter import display_size
-from app.models import Error
+from app.tuples import Error
 
 
 def forbidden(e):
