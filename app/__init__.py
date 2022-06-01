@@ -4,6 +4,7 @@ from os import environ
 
 from flask import g
 from flask import Flask
+from flask import Response
 from flask_redis import FlaskRedis
 from dotenv import load_dotenv
 
@@ -49,5 +50,17 @@ def create_app():
     @app.before_request
     def set_title():
         g.title = "업로드"
+
+    @app.get("/robots.txt")
+    def txt():
+        return Response(
+            response="\n".join([
+                "User-agent: *",
+                "Allow: /$",
+                "Allow: /static",
+                "Disallow: /",
+            ]),
+            mimetype="text/plain"
+        )
 
     return app
