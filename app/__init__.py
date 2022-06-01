@@ -8,6 +8,7 @@ from flask_redis import FlaskRedis
 from dotenv import load_dotenv
 
 from app.template_filter import display_size
+from app.secret_key import SECRET_KEY
 
 
 redis = FlaskRedis()
@@ -27,6 +28,7 @@ def create_app():
     app = Flask(__name__)
     app.config['MAX_CONTENT_LENGTH'] = int(environ['MAX_SIZE']) * 1000 * 1000
     app.config['REDIS_URL'] = environ['REDIS_URL']
+    app.config['SECRET_KEY'] = SECRET_KEY
 
     # redis init
     redis.init_app(app=app)

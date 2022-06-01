@@ -1,17 +1,15 @@
 from json import loads
-from hashlib import md5
 
 from flask import Blueprint
 from flask import g
 from flask import abort
-from flask import request
+from flask import session
 from flask import Response
 from flask import render_template
 
 from app import redis
 from app.tuples import File
 from app.tuples import Error
-from app.secret_key import SECRET_KEY
 
 bp = Blueprint(
     name="file",
@@ -33,8 +31,7 @@ def show(file_id: str):
     return render_template(
         "file/show.html",
         file_id=file_id,
-        name=file.name,
-        size=file.size,
+        file=file,
     )
 
 
@@ -50,8 +47,6 @@ def checksums(file_id: str):
     return Response(
         response="\n".join([
             file.name,
-            f"md5sum {file.md5}",
-            f"sha1sum {file.sha1}",
             f"sha256sum {file.sha256}",
         ]),
         mimetype="text/plain"
@@ -60,27 +55,17 @@ def checksums(file_id: str):
 
 @bp.get("/<string:file_id>/delete")
 def delete(file_id: str):
-    key_from_user = request.cookies.get(file_id, None)
-    if key_from_user is None:
-        return abort(403)
-
     from_redis = redis.get(f"chick0/upload:{file_id}")
     if from_redis is None:
         return abort(404)
 
-    from_redis = loads(from_redis)
-    file = File(*from_redis)
+    file = File(*loads(from_redis))
 
-    # 삭제 토큰
-    key = md5(
-        file.md5.encode() +  # 업로드된 파일과 동일한 파일인지 검증하기 위해
-        SECRET_KEY           # 서버에서 생성한 삭제 토큰인지 검증하기 위해
-    ).hexdigest()
-
-    if key != key_from_user:
+    if session.get(file_id, "undefined") != file.code:
         return abort(403)
 
     redis.delete(f"chick0/upload:{file_id}")
+    del session[file_id]
 
     return render_template(
         "error.html",

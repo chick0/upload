@@ -26,7 +26,7 @@
                 <a class="button is-link is-light is-medium is-fullwidth" href="{{ url_for('file.checksums', file_id=file_id) }}" target="_blank">체크섬</a>
             </div>
         </div>
-    {% if request.cookies[file_id] %}
+    {% if session[file_id] %}
         <a class="button is-danger is-light is-medium is-fullwidth" href="{{ url_for('file.delete', file_id=file_id) }}">파일 삭제</a>
     {% endif %}
     </div>

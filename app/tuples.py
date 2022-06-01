@@ -5,8 +5,6 @@ File = namedtuple(
     [
         "name",
         "size",
-        "md5",
-        "sha1",
         "sha256",
         "code",
     ]
