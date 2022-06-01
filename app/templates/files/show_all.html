@@ -9,8 +9,9 @@
 <section class="section">
     <div class="container">
     {% for file in files %}
-        <div class="box" style="font-size:1.3rem" data-url="/file/{{ file_id_storage[file.code] }}">
-            <p>{{ file.name }}</p>
+        <div class="box" data-url="/file/{{ file_id_storage[file.code] }}">
+            <h4 class="title is-4">{{ file.name }}</h4>
+            <p class="subtitle">{{ file.creation_date|parse_timestamp|safe }}</p>
         </div>
     {% endfor %}
     </div>

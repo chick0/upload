@@ -9,8 +9,6 @@ from flask import Response
 from flask_redis import FlaskRedis
 from dotenv import load_dotenv
 
-from app.template_filter import display_size
-
 redis = FlaskRedis()
 BASE_DIR = path.dirname(path.abspath(__file__))
 UPLOAD_DIR = path.join(BASE_DIR, "upload")
@@ -51,7 +49,9 @@ def create_app():
         app.register_blueprint(getattr(getattr(views, view), "bp"))
 
     # filter init
-    app.add_template_filter(display_size)
+    from app import template_filter
+    for x in [x for x in [getattr(template_filter, x) for x in dir(template_filter) if not x.startswith("_")] if x.__class__.__name__ == "function"]:
+        app.add_template_filter(x)
 
     # register error handler
     from .error import error_map
