@@ -1,6 +1,7 @@
 from os import path
 from os import remove
 from os import listdir
+from os import environ
 from sys import exit
 from time import time
 from time import sleep
@@ -8,23 +9,21 @@ from logging import INFO
 from logging import getLogger
 from logging import Formatter
 from logging import StreamHandler
-from configparser import ConfigParser
 
 from redis import StrictRedis
+from dotenv import load_dotenv
 
 BASE_DIR = path.dirname(path.abspath(__file__))
 UPLOAD_DIR = path.join(BASE_DIR, "app", "upload")
 
 
 def worker():
+    load_dotenv()
     logger = getLogger()
 
     logger.info("staring worker...")
-    config = ConfigParser()
-    config.read("upload.ini", encoding="utf8")
 
-    logger.info("connecting to redis server...")
-    redis = StrictRedis.from_url(url=config['upload']['redis_url'])
+    redis = StrictRedis.from_url(url=environ['REDIS_URL'])
 
     while True:
         logger.info("starting task")

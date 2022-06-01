@@ -4,3 +4,5 @@ __all__ = [
     "robots",
     "upload",
 ]
+
+from . import *

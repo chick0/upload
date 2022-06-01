@@ -1,5 +1,7 @@
 flask
 flask-redis
 
+python-dotenv
+
 gunicorn
 gevent

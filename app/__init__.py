@@ -1,12 +1,13 @@
 from os import path
 from os import mkdir
+from os import environ
 
 from flask import g
 from flask import Flask
 from flask_redis import FlaskRedis
+from dotenv import load_dotenv
 
-from .config import get
-from .template_filter import display_size
+from app.template_filter import display_size
 
 
 redis = FlaskRedis()
@@ -20,18 +21,20 @@ def upload_path_test():
 
 
 def create_app():
+    load_dotenv()
     upload_path_test()
+
     app = Flask(__name__)
-    app.config['MAX_CONTENT_LENGTH'],\
-        app.config['REDIS_URL'] = get()
+    app.config['MAX_CONTENT_LENGTH'] = int(environ['MAX_SIZE']) * 1000 * 1000
+    app.config['REDIS_URL'] = environ['REDIS_URL']
 
     # redis init
     redis.init_app(app=app)
 
     # blueprint init
-    from . import views
+    from app import views
     for view in views.__all__:
-        app.register_blueprint(getattr(getattr(getattr(__import__(f"app.views.{view}"), "views"), view), "bp"))
+        app.register_blueprint(getattr(getattr(views, view), "bp"))
 
     # filter init
     app.add_template_filter(display_size)
@@ -43,6 +46,6 @@ def create_app():
 
     @app.before_request
     def set_title():
-        g.title = "Upload!"
+        g.title = "업로드"
 
     return app
