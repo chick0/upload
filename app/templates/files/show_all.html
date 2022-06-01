@@ -3,6 +3,11 @@
 <section class="section">
     <div class="container">
         <h1 class="title is-1">내 파일</h1>
+    {% if files|length == 0 %}
+        <div class="notification is-danger">
+            업로드한 파일이 없습니다!
+        </div>
+    {% endif %}
     </div>
 </section>
 
