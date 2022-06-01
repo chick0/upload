@@ -12,11 +12,7 @@ from app import redis
 from app.tuples import File
 from app.tuples import Error
 
-bp = Blueprint(
-    name="file",
-    import_name="file",
-    url_prefix="/file",
-)
+bp = Blueprint("file", __name__, url_prefix="/file")
 
 
 @bp.get("/<string:file_id>")

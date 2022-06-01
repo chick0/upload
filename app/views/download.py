@@ -10,11 +10,7 @@ from app import redis
 from app import UPLOAD_DIR
 from app.tuples import File
 
-bp = Blueprint(
-    name="download",
-    import_name="download",
-    url_prefix="/download",
-)
+bp = Blueprint("download", __name__, url_prefix="/download")
 
 
 @bp.get("/<string:file_id>")

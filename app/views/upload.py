@@ -18,11 +18,7 @@ from app import UPLOAD_DIR
 from app.custom_error import *
 from app.tuples import File
 
-bp = Blueprint(
-    name="upload",
-    import_name="upload",
-    url_prefix="/",
-)
+bp = Blueprint("upload", __name__, url_prefix="/")
 
 
 def set_filename(file_id: str, filename: str) -> str:
